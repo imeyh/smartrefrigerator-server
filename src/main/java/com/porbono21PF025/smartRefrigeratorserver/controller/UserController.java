@@ -47,7 +47,16 @@ public class UserController {
 			@RequestParam("password") String password,
 			@ApiParam(value = "신규 사용자 이름", required = true)
 			@RequestParam("name") String name) {
-		return repo.save(new UserInfo(id,password,name));
+		
+		UserInfo user = repo.findById(id).orElse(null);
+		
+		if (user == null) {
+			return repo.save(new UserInfo(id,password,name));
+		}
+		
+		return null;
+				
+		
 	}
 	
 	@ApiOperation(value = "사용자 삭제", notes = "사용자 아이디를 통해 사용자 정보를 삭제합니다.")
