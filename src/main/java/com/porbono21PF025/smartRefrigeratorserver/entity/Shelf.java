@@ -7,6 +7,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name="Shelf") // 테이블 명
+@Table(name="Shelf")
 public class Shelf {
 	
 	@Id 
