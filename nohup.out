@@ -1,0 +1,39 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.3)
+
+2021-08-30 21:22:17.637  INFO 15254 --- [           main] c.p.s.SmartRefrigeratorApplication       : Starting SmartRefrigeratorApplication v0.0.1-SNAPSHOT using Java 1.8.0_302 on ip-172-31-13-117.ap-northeast-2.compute.internal with PID 15254 (/home/ec2-user/spring/server/21_pf025-server/target/SmartRefrigerator-0.0.1-SNAPSHOT.jar started by ec2-user in /home/ec2-user/spring/server/21_pf025-server)
+2021-08-30 21:22:17.647  INFO 15254 --- [           main] c.p.s.SmartRefrigeratorApplication       : No active profile set, falling back to default profiles: default
+2021-08-30 21:22:20.207  INFO 15254 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-08-30 21:22:20.392  INFO 15254 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 156 ms. Found 3 JPA repository interfaces.
+2021-08-30 21:22:22.102  INFO 15254 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-08-30 21:22:22.130  INFO 15254 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-08-30 21:22:22.131  INFO 15254 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.50]
+2021-08-30 21:22:22.296  INFO 15254 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-08-30 21:22:22.296  INFO 15254 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4503 ms
+2021-08-30 21:22:23.137  INFO 15254 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-08-30 21:22:24.060  INFO 15254 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-08-30 21:22:24.586  INFO 15254 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-08-30 21:22:24.826  INFO 15254 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-08-30 21:22:25.244  INFO 15254 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-08-30 21:22:25.620  INFO 15254 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-08-30 21:22:27.445  INFO 15254 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-08-30 21:22:27.483  INFO 15254 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-08-30 21:22:29.409  WARN 15254 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-08-30 21:22:29.849  INFO 15254 --- [           main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-08-30 21:22:30.820  INFO 15254 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-08-30 21:22:30.824  INFO 15254 --- [           main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-08-30 21:22:30.895  INFO 15254 --- [           main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-08-30 21:22:31.043  INFO 15254 --- [           main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-08-30 21:22:31.571  INFO 15254 --- [           main] c.p.s.SmartRefrigeratorApplication       : Started SmartRefrigeratorApplication in 15.09 seconds (JVM running for 16.267)
+2021-08-30 21:23:34.415  INFO 15254 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-08-30 21:23:34.415  INFO 15254 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-08-30 21:23:34.417  INFO 15254 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2021-08-30 21:24:23.718  INFO 15254 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-08-30 21:24:23.721  INFO 15254 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-08-30 21:24:23.735  INFO 15254 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
