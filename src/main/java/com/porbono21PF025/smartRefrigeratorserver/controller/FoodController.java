@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.porbono21PF025.smartRefrigeratorserver.dao.FoodRepository;
+import com.porbono21PF025.smartRefrigeratorserver.entity.BasicResponse;
+import com.porbono21PF025.smartRefrigeratorserver.entity.CommonResponse;
+import com.porbono21PF025.smartRefrigeratorserver.entity.ErrorResponse;
 import com.porbono21PF025.smartRefrigeratorserver.entity.Food;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,29 +35,42 @@ public class FoodController {
 	@ApiOperation(value = "반찬통 생성", notes = "신규 반찬통을 생성합니다.")
 	@Transactional
 	@PostMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public int registerFood(
+	public ResponseEntity<BasicResponse> registerFood(
 			@ApiParam(value = "반찬통 NFC 태그 고유 번호",required = true)
 			@PathVariable("id") String id, 
 			@ApiParam(value = "반찬통에 지정할 사용자 정의 이름",required = true)
 			@RequestParam("food_name") String food_name,
 			@ApiParam(value = "반찬통이 추가될 선반의 NFC 태그 고유 번호",required = true)
 			@RequestParam("shelf_id") String shelf_id) {
-
-		return repo.registerFood(id,food_name,shelf_id);
+		
+		Food food = repo.findById(id).orElse(null);
+		if(food != null) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 반찬통 정보입니다.","409"));
+		}
+		
+		int success = repo.registerFood(id,food_name,shelf_id); 
+		
+		if (success == 0) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
+		}
+		
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 	@ApiOperation(value = "전체 반찬통 조회", notes = "선반에 등록된 모든 반찬통의 정보를 조회합니다.")
 	@GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Food> getFoodList(
+	public ResponseEntity<BasicResponse> getFoodList(
 			@ApiParam(value = "조회할 선반의 NFC 태그 고유 번호",required = true)
 			@RequestParam("shelf_id") String shelf_id
 			) {
-		return repo.getFoodList(shelf_id);
+		List<Food> foods = repo.getFoodList(shelf_id);
+		return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse<List<Food>>(foods));
 	}
 	
 	@ApiOperation(value = "특정 위치 반찬통 조회", notes = "선반의 특정 위치에 있는 반찬통의 정보를 조회합니다.")
 	@GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Food getFood(
+	public ResponseEntity<BasicResponse> getFood(
 			@ApiParam(value = "조회할 선반의 NFC 태그 고유 번호",required = true)
 			@RequestParam("shelf_id") String shelf_id,
 			@ApiParam(value = "조회할 행의 위치",required = true)
@@ -60,44 +78,60 @@ public class FoodController {
 			@ApiParam(value = "조회할 열의 위치",required = true)
 			@RequestParam("food_col") String food_col
 			) {
-		return repo.getFood(shelf_id,food_row,food_col);
+		
+		Food food = repo.getFood(shelf_id,food_row,food_col);
+		return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse<Food>(food));
+		
 	}
 	
 	@ApiOperation(value = "반찬통 영구 삭제", notes = "특정 반찬통을 삭제합니다.")
 	@DeleteMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteFood(
+	public ResponseEntity<BasicResponse> deleteFood(
 			@ApiParam(value = "삭제할 반찬통의 NFC 태그 고유 번호", required = true)
 			@PathVariable("id") String id
 			) {
+		
+		Food food = repo.findById(id).orElse(null);
+		
+		if(food == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 반찬통 정보입니다."));
+		}
 		repo.deleteById(id);
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 	@ApiOperation(value = "반찬통 정보 갱신", notes = "특정 반찬통의 정보를 갱신합니다.")
 	@PatchMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public void updateFood(
+	public ResponseEntity<BasicResponse> updateFood(
 			@ApiParam(value = "갱신할 반찬통의 NFC 태그 고유 번호", required = true)
 			@PathVariable("id") String id,
-			@ApiParam(value = "반찬통의 이름 변경", required = false)
-			@RequestParam(value = "name", required = false) String name,
-			@ApiParam(value = "반찬통이 속한 선반의 고유 번호 변경 (권장 않음)", required = false)
-			@RequestParam(value = "shelf_id",required = false) String shelf_id,
-			@ApiParam(value = "반찬통이 속한 행의 위치 변경 (권장 않음)", required = false)
-			@RequestParam(value = "row",required = false) int row,
-			@ApiParam(value = "반찬통이 속한 열의 위치 변경 (권장 않음)", required = false)
-			@RequestParam(value = "col",required = false) int col,
-			@ApiParam(value = "반찬통의 무게 변경 (권장 않음)", required = false)
-			@RequestParam(value = "weight",required = false) float weight
+			@ApiParam(value = "반찬통의 이름 변경", required = true)
+			@RequestParam(value = "name", required = true) String name
 			) {
-		repo.deleteById(id);
+		
+		Food food = repo.findById(id).orElse(null);
+		if(food == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 반찬통 정보입니다."));
+		}
+		food.setFood_name(name);
+	
+		repo.save(food);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@ApiOperation(value = "반찬통 조회", notes = "반찬통의 고유번호를 통해 정보를 조회합니다.")
 	@GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Food getFoodById(
+	public ResponseEntity<BasicResponse> getFoodById(
 			@ApiParam(value = "조회할 반찬통의 NFC 태그 고유 번호", required = false)
 			@PathVariable("id") String id
 			) {
-		return repo.findById(id).orElse(null);
+		Food food = repo.findById(id).orElse(null);
+		
+		if(food == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 반찬통 정보입니다."));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse<Food>(food));
 	}
 	
 }

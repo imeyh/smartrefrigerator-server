@@ -71,7 +71,7 @@ public class UserController {
 		
 		// 사용자가 이미 존재하는 경우 
 		if (user != null) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 아이디 입니다."));
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 아이디 입니다.","409"));
 		}
 		
 		user = repo.save(new UserInfo(id,name,password));

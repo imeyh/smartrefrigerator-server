@@ -12,6 +12,6 @@ public interface UserRepository extends CrudRepository<UserInfo,String> {
 	UserInfo findByIdAndPassword(String id, String password);
 	
 	@Modifying
-	@Query(value="UPDATE User_info SET shelf_id = ?2 WHERE user_id = ?1",nativeQuery = true)
+	@Query(value="UPDATE User_info SET shelf_id = ?2 WHERE user_id = ?1 AND EXISTS(SELECT shelf_id FROM Shelf where shelf_id = ?2)",nativeQuery = true)
 	int connectToShelf(String id,String shelf_id);
 }
