@@ -74,7 +74,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 아이디 입니다.","409"));
 		}
 		
-		user = repo.save(new UserInfo(id,name,password));
+		user = repo.save(new UserInfo(id,password,name));
 		return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse<UserInfo>(user));
 	}
 	
