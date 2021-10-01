@@ -10,8 +10,8 @@ import com.porbono21PF025.smartRefrigeratorserver.entity.Food;
 
 public interface FoodRepository extends CrudRepository<Food,String>{
 	@Modifying
-	@Query(value="INSERT INTO Food (food_id,food_name,shelf_id) SELECT ?1,?2,?3 FROM DUAL WHERE EXISTS(SELECT shelf_id FROM Shelf where shelf_id = ?3)",nativeQuery = true)
-	int registerFood(String id,String name,String shelf_id);
+	@Query(value="INSERT INTO Food (food_id,food_name,food_row,food_col,shelf_id) SELECT ?1,?2,?3,?4,?5 FROM DUAL WHERE EXISTS(SELECT shelf_id FROM Shelf where shelf_id = ?5)",nativeQuery = true)
+	int registerFood(String id,String name,int row,int col,String shelf_id);
 	
 	@Query(value="SELECT * FROM Food WHERE shelf_id = ?1", nativeQuery = true)
 	List<Food> getFoodList(String shelf_id);

@@ -40,15 +40,20 @@ public class FoodController {
 			@PathVariable("id") String id, 
 			@ApiParam(value = "반찬통에 지정할 사용자 정의 이름",required = true)
 			@RequestParam("food_name") String food_name,
+			@ApiParam(value = "반찬통의 위치(행, 0~1)",required = true)
+			@RequestParam("food_row") int food_row,
+			@ApiParam(value = "반찬통의 위치(열, 0~2)",required = true)
+			@RequestParam("food_col") int food_col,
 			@ApiParam(value = "반찬통이 추가될 선반의 NFC 태그 고유 번호",required = true)
 			@RequestParam("shelf_id") String shelf_id) {
 		
 		Food food = repo.findById(id).orElse(null);
+		
 		if(food != null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 반찬통 정보입니다.","409"));
 		}
 		
-		int success = repo.registerFood(id,food_name,shelf_id); 
+		int success = repo.registerFood(id,food_name,food_row,food_col,shelf_id); 
 		
 		if (success == 0) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
