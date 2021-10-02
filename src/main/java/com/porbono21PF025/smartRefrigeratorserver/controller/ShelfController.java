@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.porbono21PF025.smartRefrigeratorserver.dao.FoodRepository;
 import com.porbono21PF025.smartRefrigeratorserver.dao.ShelfRepository;
 import com.porbono21PF025.smartRefrigeratorserver.entity.BasicResponse;
 import com.porbono21PF025.smartRefrigeratorserver.entity.CommonResponse;
 import com.porbono21PF025.smartRefrigeratorserver.entity.ErrorResponse;
+import com.porbono21PF025.smartRefrigeratorserver.entity.Food;
 import com.porbono21PF025.smartRefrigeratorserver.entity.Shelf;
 
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class ShelfController {
 	
 	private final ShelfRepository repo;
+	private final FoodRepository foodRepo;
 	
 	@ApiOperation(value = "선반 생성", notes = "신규 선반을 생성합니다.")
 	@PostMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -134,6 +137,13 @@ public class ShelfController {
 		Shelf shelf = repo.findById(id).orElse(null);
 		if(shelf==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
+		}
+		
+		Food food = foodRepo.getFood(id, row, col);
+		
+		// 이미 해당 위치에 반찬통이 존재하는 경우
+		if(food != null) {
+			repo.removeFoodAt(id, row, col);
 		}
 		
 		int success = repo.addFoodAt(id,food_id,row,col,weight); 

@@ -18,7 +18,8 @@ CREATE TABLE Food
     `food_weight` Float    NULL, 
     `shelf_id`     VARCHAR(45)    NOT NULL, 
     `food_row`          INT            NULL, 
-    `food_col`          INT            NULL, 
+    `food_col`          INT            NULL,
+    `registered_date`		VARCHAR(20)		NOT NULL,
     CONSTRAINT PK_Food PRIMARY KEY (food_id)
 );
 

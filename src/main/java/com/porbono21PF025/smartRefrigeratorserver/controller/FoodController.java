@@ -44,6 +44,8 @@ public class FoodController {
 			@RequestParam("food_row") int food_row,
 			@ApiParam(value = "반찬통의 위치(열, 0~2)",required = true)
 			@RequestParam("food_col") int food_col,
+			@ApiParam(value = "반찬통 등록 날짜",required = true)
+			@RequestParam("registered_date") String registerd_date,
 			@ApiParam(value = "반찬통이 추가될 선반의 NFC 태그 고유 번호",required = true)
 			@RequestParam("shelf_id") String shelf_id) {
 		
@@ -53,12 +55,12 @@ public class FoodController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 반찬통 정보입니다.","409"));
 		}
 		
-		int success = repo.registerFood(id,food_name,food_row,food_col,shelf_id); 
+		int success = repo.registerFood(id,food_name,food_row,food_col,registerd_date,shelf_id); 
 		
 		if (success == 0) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
 		}
-		
+			
 		
 		return ResponseEntity.noContent().build();
 	}
@@ -79,9 +81,9 @@ public class FoodController {
 			@ApiParam(value = "조회할 선반의 NFC 태그 고유 번호",required = true)
 			@RequestParam("shelf_id") String shelf_id,
 			@ApiParam(value = "조회할 행의 위치",required = true)
-			@RequestParam("food_row") String food_row,
+			@RequestParam("food_row") int food_row,
 			@ApiParam(value = "조회할 열의 위치",required = true)
-			@RequestParam("food_col") String food_col
+			@RequestParam("food_col") int food_col
 			) {
 		
 		Food food = repo.getFood(shelf_id,food_row,food_col);

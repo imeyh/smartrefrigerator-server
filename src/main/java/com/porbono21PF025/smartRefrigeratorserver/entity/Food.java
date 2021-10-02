@@ -30,11 +30,13 @@ public class Food {
 	private Float food_weight;
 	private Integer food_row;
 	private Integer food_col;
+	private String registered_date;
 	
-	public Food(String food_id, String food_name,Shelf shelf_id) {
+	public Food(String food_id, String food_name,String registered_date,Shelf shelf_id) {
 		super();
 		this.id = food_id;
 		this.food_name = food_name;
 		this.shelf_id = shelf_id;
+		this.registered_date = registered_date;
 	}
 }
