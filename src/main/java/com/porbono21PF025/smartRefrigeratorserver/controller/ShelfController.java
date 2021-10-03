@@ -108,7 +108,7 @@ public class ShelfController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
 		}
 		
-		shelf.setIce(true);
+		shelf.setIce(ice);
 		repo.save(shelf);
 		
 		return ResponseEntity.noContent().build();
