@@ -56,7 +56,6 @@ public class FoodController {
 		}
 		
 		int success = repo.registerFood(id,food_name,food_row,food_col,registerd_date,shelf_id); 
-		
 		if (success == 0) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
 		}
@@ -113,8 +112,10 @@ public class FoodController {
 	public ResponseEntity<BasicResponse> updateFood(
 			@ApiParam(value = "갱신할 반찬통의 NFC 태그 고유 번호", required = true)
 			@PathVariable("id") String id,
-			@ApiParam(value = "반찬통의 이름 변경", required = true)
-			@RequestParam(value = "name", required = true) String name
+			@ApiParam(value = "변경될 반찬통의 이름", required = true)
+			@RequestParam(value = "name", required = true) String name,
+			@ApiParam(value = "변경될 반찬통의 등록 날짜", required = true)
+			@RequestParam(value = "registered_date", required = true) String registered_date
 			) {
 		
 		Food food = repo.findById(id).orElse(null);
@@ -122,6 +123,7 @@ public class FoodController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 반찬통 정보입니다."));
 		}
 		food.setFood_name(name);
+		food.setRegistered_date(registered_date);
 	
 		repo.save(food);
 		return ResponseEntity.noContent().build();
