@@ -19,5 +19,14 @@ public class Shelf {
 	private int row;
 	@Column(name="shelf_col")
 	private int col;
-
+	
+	@Column(name="ice")
+	private boolean ice; 
+	
+	public Shelf(String id,int row,int col){
+		this.id = id;
+		this.row = row;
+		this.col = col;
+		this.ice = false;
+	}
 }

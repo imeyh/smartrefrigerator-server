@@ -93,6 +93,27 @@ public class ShelfController {
 		return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse<Shelf>(shelf));
 	}
 	
+	@ApiOperation(value = "얼음 정보 수정", notes = "shelf_id를 이용하여 얼음 정보를 수정합니다.")
+	@PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BasicResponse> findIce(
+			@ApiParam(value = "선반 NFC 태그 고유 번호",required = true)
+			@PathVariable String id,
+			@ApiParam(value = "얼음 정보", required = true)
+			@RequestParam boolean ice
+		) {
+		
+		// 선반이 디비에 존재안함   
+		Shelf shelf = repo.findById(id).orElse(null);
+		if(shelf==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("존재하지 않는 선반 정보입니다."));
+		}
+		
+		shelf.setIce(true);
+		repo.save(shelf);
+		
+		return ResponseEntity.noContent().build();
+	}
+	
 	@ApiOperation(value = "특정 위치의 음식 정보 제거", notes = "row, col을 전달하여 해당 위치의 음식 정보를 제거합니다.")
 	@Transactional
 	@PatchMapping(value = "/remove/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

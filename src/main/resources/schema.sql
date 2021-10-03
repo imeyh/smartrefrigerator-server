@@ -5,9 +5,10 @@ DROP TABLE IF EXISTS Shelf;
 
 CREATE TABLE Shelf
 (
-    `shelf_id`  VARCHAR(45)    NOT NULL, 
+    `shelf_id`  VARCHAR(45)    NOT NULL,
     `shelf_row`       INT            NULL, 
-    `shelf_col`       INT            NULL, 
+    `shelf_col`       INT            NULL,
+    `ice`		Boolean		DEFAULT	FALSE,
     CONSTRAINT PK_Shelf PRIMARY KEY (shelf_id)
 );
 
