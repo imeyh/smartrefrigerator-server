@@ -1,5 +1,8 @@
 package com.porbono21PF025.smartRefrigeratorserver.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -167,7 +170,22 @@ public class ShelfController {
 			repo.removeFoodAt(id, row, col);
 		}
 		
-		int success = repo.addFoodAt(id,food_id,row,col,weight); 
+		// 새로운 반찬 정보가 등록된 정보인지 확인
+		Food new_food = foodRepo.findById(food_id).orElse(null);
+		float max_weight = 0.0f;
+		if (new_food == null) {
+			SimpleDateFormat format = new SimpleDateFormat ( "yyyy - MM - dd");
+			String today = format.format(new Date());
+			foodRepo.registerFood(food_id,"이름 없음",row,col,today,id); 
+		}else {
+			max_weight = new_food.getMax_weight();
+		}
+		
+		if(max_weight == 0.0f || max_weight < weight) {
+			max_weight = weight;
+		}
+		
+		int success = repo.addFoodAt(id,food_id,row,col,weight,max_weight); 
 		
 		if (success == 0) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("해당 음식정보가 존재하지 않습니다."));

@@ -15,8 +15,8 @@ public interface ShelfRepository extends CrudRepository<Shelf,String> {
 	int removeFoodAt(String id, int row, int col);
 	
 	@Modifying
-	@Query(value="UPDATE Food Set food_row = ?3, food_col = ?4, food_weight = ?5 WHERE shelf_id = ?1 and food_id = ?2", nativeQuery = true)
-	int addFoodAt(String id, String food_id, int row, int col, float weight);
+	@Query(value="UPDATE Food Set food_row = ?3, food_col = ?4, food_weight = ?5, max_weight =?6 WHERE shelf_id = ?1 and food_id = ?2", nativeQuery = true)
+	int addFoodAt(String id, String food_id, int row, int col, float weight,float max_weight);
 	
 	
 }

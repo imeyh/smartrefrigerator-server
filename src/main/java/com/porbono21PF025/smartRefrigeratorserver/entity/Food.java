@@ -28,9 +28,11 @@ public class Food {
 	
 	private String food_name;
 	private Float food_weight;
+	private Float max_weight;
 	private Integer food_row;
 	private Integer food_col;
 	private String registered_date;
+	
 	
 	public Food(String food_id, String food_name,String registered_date,Shelf shelf_id) {
 		super();

@@ -17,6 +17,7 @@ CREATE TABLE Food
     `food_id`      VARCHAR(45)    NOT NULL, 
     `food_name`    VARCHAR(45)    NULL, 
     `food_weight` Float    NULL, 
+    `max_weight` Float DEFAULT 0.0,
     `shelf_id`     VARCHAR(45)    NOT NULL, 
     `food_row`          INT            NULL, 
     `food_col`          INT            NULL,

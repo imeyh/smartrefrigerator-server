@@ -124,7 +124,7 @@ public class FoodController {
 		}
 		food.setFood_name(name);
 		food.setRegistered_date(registered_date);
-	
+		food.setMax_weight(0.0f);
 		repo.save(food);
 		return ResponseEntity.noContent().build();
 	}
