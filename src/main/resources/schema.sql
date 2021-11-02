@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS Shelf;
 CREATE TABLE Shelf
 (
     `shelf_id`  VARCHAR(45)    NOT NULL,
+    `ble_uuid`  VARCHAR(45)    DEFAULT '',
     `shelf_row`       INT            NULL, 
     `shelf_col`       INT            NULL,
     `ice`		Boolean		DEFAULT	FALSE,
