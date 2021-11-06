@@ -176,9 +176,10 @@ public class ShelfController {
 		Food new_food = foodRepo.findById(food_id).orElse(null);
 		float max_weight = 0.0f;
 		if (new_food == null) {
-			SimpleDateFormat format = new SimpleDateFormat ( "yyyy - MM - dd");
-			String today = format.format(new Date());
-			foodRepo.registerFood(food_id,"이름 없음",row,col,today,id); 
+//			SimpleDateFormat format = new SimpleDateFormat ( "yyyy - MM - dd");
+//			String today = format.format(new Date());
+//			foodRepo.registerFood(food_id,"이름 없음",row,col,today,id); 
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("해당 음식정보가 존재하지 않습니다."));
 		}else {
 			max_weight = new_food.getMax_weight();
 		}
