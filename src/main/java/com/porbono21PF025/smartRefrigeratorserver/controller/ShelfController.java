@@ -44,8 +44,6 @@ public class ShelfController {
 	public ResponseEntity<BasicResponse> postShelf(
 			@ApiParam(value = "선반 NFC 태그 고유 번호",required = true)
 			@PathVariable String id,
-			@ApiParam(value = "블루투스 uuid",required = true)
-			@PathVariable String uuid,
 			@ApiParam(value = "선반의 세로 길이", required = true)
 			@RequestParam int row,
 			@ApiParam(value = "선반의 가로 길이", required = true)
@@ -58,7 +56,7 @@ public class ShelfController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("이미 존재하는 정보입니다.","409"));
 		}
 		
-		shelf = repo.save(new Shelf(id,uuid,row,col)); 
+		shelf = repo.save(new Shelf(id,row,col)); 
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse<Shelf>(shelf));
 	}
